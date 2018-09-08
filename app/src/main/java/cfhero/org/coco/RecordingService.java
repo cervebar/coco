@@ -1,35 +1,69 @@
 package cfhero.org.coco;
 
-import android.app.ActivityManager;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
+import android.os.Binder;
 import android.os.IBinder;
+import android.util.Log;
 
 public class RecordingService extends Service {
+    private static final String LOG_TAG = "RecordingService";
     Recorder rec;
 
     public RecordingService() {
     }
 
     @Override
-    public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
-        throw new UnsupportedOperationException("Not yet implemented");
+    public void onCreate() {
+        super.onCreate();
+        Log.v(LOG_TAG, "in onCreate");
     }
 
+    // bind --------------------------------------
+    private IBinder binder = new RecoringBinder();
 
-
-
-    // isrecording
-
-    public static boolean isServiceRunning(Context context) {
-        ActivityManager manager = (ActivityManager) context.getSystemService(ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if ("cfhero.org.coco.RecordingService".equals(RecordingService.class.getSimpleName()))
-                return true;
+    public class RecoringBinder extends Binder {
+        RecordingService getService() {
+            return RecordingService.this;
         }
-        return false;
     }
 
+    @Override
+    public IBinder onBind(Intent intent) {
+        Log.v(LOG_TAG, "in onBind");
+        return binder;
+    }
+
+    @Override
+    public void onRebind(Intent intent) {
+        Log.v(LOG_TAG, "in onRebind");
+        super.onRebind(intent);
+    }
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+        Log.v(LOG_TAG, "in onUnbind");
+        return true;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.v(LOG_TAG, "in onDestroy");
+//        rec.stopRecording();
+    }
+
+
+    public boolean isRecording() {
+        return rec!=null && rec.isRecoring();
+    }
+
+    public void startRecording(String file){
+        rec = new Recorder(file);
+        rec.startRecoring();
+    }
+
+    public void stopRecording(){
+        rec.stopRecording();
+    }
 }

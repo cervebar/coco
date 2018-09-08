@@ -90,4 +90,16 @@
         tools:layout_editor_absoluteY="165dp"
         tools:text="stop record" />
 
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:onClick="isRecording"
+        android:text="kvak"
+        android:visibility="visible"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="108dp"
+        tools:text="kvak" />
+
 </android.support.constraint.ConstraintLayout>

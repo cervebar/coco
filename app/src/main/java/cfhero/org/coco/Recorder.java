@@ -78,4 +78,8 @@ public class Recorder  {
             e.printStackTrace();
         }
     }
+
+    public boolean isRecoring() {
+        return this.mr !=null;
+    }
 }

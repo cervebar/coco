@@ -1,11 +1,15 @@
 package cfhero.org.coco;
 
 import android.Manifest;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -35,12 +39,21 @@ public class MainActivity extends AppCompatActivity {
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        file = getExternalCacheDir().getAbsolutePath()+"/out.mp4";
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        bindService();
     }
 
     @Override
     public void onStop() {
         super.onStop();
         tryReleaseMediaPlayer();
+        unboundService();
     }
 
 
@@ -80,22 +93,62 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // recorder -----------------------
-    Recorder rec;
     String file;
 
+    RecordingService recService;
+    boolean recServiceBounded = false;
+
     public void startRecord(View view) {
-        if(rec == null){
-            file = getExternalCacheDir().getAbsolutePath()+"/out.mp4";
-            rec = new Recorder(file);
+        Log.i(LOG_TAG,"starting");
+        if(recServiceBounded) {
+            recService.startRecording(file);
         }
-        rec.startRecoring();
     }
 
     public void stopRecord(View view) {
-        if (rec != null){
-            rec.stopRecording();
+        Log.i(LOG_TAG,"stop record");
+        recService.stopRecording();
+    }
+
+    private void bindService(){
+        if(!recServiceBounded) {
+            Intent intent = new Intent(this, RecordingService.class);
+            startService(intent);
+            bindService(intent, recServiceConnection, Context.BIND_AUTO_CREATE);
+            recServiceBounded = true;
         }
     }
+
+    private void unboundService() {
+        Log.i(LOG_TAG,"unbinding");
+        if (recServiceBounded) {
+            unbindService(recServiceConnection);
+            recServiceBounded = false;
+        }
+    }
+
+    public void isRecording(View v){
+        if(recServiceBounded) {
+            Log.i(LOG_TAG, "kavak " + recService.isRecording());
+        }else{
+            Log.i(LOG_TAG, "ble ");
+        }
+    }
+
+    private ServiceConnection recServiceConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            recServiceBounded = false;
+        }
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            RecordingService.RecoringBinder myBinder = (RecordingService.RecoringBinder) service;
+            recService = myBinder.getService();
+            recServiceBounded = true;
+        }
+    };
 
 
     // play audio -----------------------------------------------------------
