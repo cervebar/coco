@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         if (!permissionToRecordAccepted ) finish();
     }
 
-    // recorder -----------------------
+    // recording service  ---------------------------------------------------
     String file;
 
     RecordingService recService;
@@ -127,12 +127,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void isRecording(View v){
-        if(recServiceBounded) {
-            Log.i(LOG_TAG, "kavak " + recService.isRecording());
-        }else{
-            Log.i(LOG_TAG, "ble ");
-        }
+    public void isRecording(View v) {
+        Log.i(LOG_TAG, "is recording :  " + recService.isRecording());
     }
 
     private ServiceConnection recServiceConnection = new ServiceConnection() {
