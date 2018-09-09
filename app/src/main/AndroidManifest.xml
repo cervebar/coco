@@ -26,7 +26,16 @@
         <service
             android:name=".RecordingService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <activity
+            android:name=".settings.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="cfhero.org.coco.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

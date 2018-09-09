@@ -19,6 +19,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import cfhero.org.coco.settings.SettingsActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = "MainSctivity";
@@ -69,11 +71,18 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_home:
                     mTextMessage.setText(R.string.title_home);
                     return true;
-                case R.id.navigation_dashboard:
+                case R.id.navigation_records:
                     mTextMessage.setText(R.string.title_dashboard);
                     return true;
-                case R.id.navigation_notifications:
+                case R.id.navigation_awards:
                     mTextMessage.setText(R.string.title_notifications);
+                    return true;
+                case R.id.navigation_dashboard:
+                    mTextMessage.setText(R.string.title_notifications);
+                    return true;
+                case R.id.navigation_settings:
+                    Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                    startActivity(intent);
                     return true;
             }
             return false;
