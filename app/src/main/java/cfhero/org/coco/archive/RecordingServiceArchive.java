@@ -1,4 +1,4 @@
-package cfhero.org.coco;
+package cfhero.org.coco.archive;
 
 import android.app.Service;
 import android.content.Intent;
@@ -6,11 +6,11 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
-public class RecordingService extends Service {
+public class RecordingServiceArchive extends Service {
     private static final String LOG_TAG = "RecordingService";
     Recorder rec;
 
-    public RecordingService() {
+    public RecordingServiceArchive() {
     }
 
     @Override
@@ -23,8 +23,8 @@ public class RecordingService extends Service {
     private IBinder binder = new RecoringBinder();
 
     public class RecoringBinder extends Binder {
-        RecordingService getService() {
-            return RecordingService.this;
+        RecordingServiceArchive getService() {
+            return RecordingServiceArchive.this;
         }
     }
 
