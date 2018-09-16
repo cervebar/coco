@@ -5,6 +5,7 @@
     <!-- enable audio recording -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -27,10 +28,6 @@
             android:name=".audio.RecordingService"
             android:enabled="true"
             android:exported="true" />
-        <service
-            android:name=".RecieverService"
-            android:enabled="true"
-            android:exported="true"></service>
     </application>
 
 </manifest>
