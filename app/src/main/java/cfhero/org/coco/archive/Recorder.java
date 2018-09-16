@@ -1,4 +1,4 @@
-package cfhero.org.coco;
+package cfhero.org.coco.archive;
 
 import android.app.IntentService;
 import android.media.MediaRecorder;

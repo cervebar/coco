@@ -19,6 +19,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import cfhero.org.coco.audio.RecordingService;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = "MainSctivity";
